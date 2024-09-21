@@ -22,6 +22,7 @@ class AppPref(var context : Context) {
         val HEIGHT_KEY = doublePreferencesKey("HEIGHT")
         val AREYOUSINGLE_KEY = booleanPreferencesKey("AREYOUSINGLE")
         val FRIEND_LIST_KEY = stringSetPreferencesKey("FRIEND_LIST")
+        val COUNTER_KEY = intPreferencesKey("COUNTER")
     }
 
     suspend fun recordName(name: String) {
@@ -108,4 +109,22 @@ class AppPref(var context : Context) {
             it.remove(FRIEND_LIST_KEY)
         }
     }
+
+    suspend fun recordCounter(counter: Int) {
+        context.dataStore.edit {
+            it[COUNTER_KEY] = counter
+        }
+    }
+
+    suspend fun readCounter() : Int {
+        val p = context.dataStore.data.first()
+        return p[COUNTER_KEY] ?: 0
+    }
+
+    suspend fun deleteCounter() {
+        context.dataStore.edit {
+            it.remove(COUNTER_KEY)
+        }
+    }
+
 }

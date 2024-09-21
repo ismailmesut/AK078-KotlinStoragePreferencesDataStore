@@ -3,6 +3,7 @@ package com.ismailmesutmujde.kotlinstoragepreferencesdatastore
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.ismailmesutmujde.kotlinstoragepreferencesdatastore.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,9 +11,13 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var bindingMain : ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        bindingMain = ActivityMainBinding.inflate(layoutInflater)
+        val view = bindingMain.root
+        setContentView(view)
 
         val appPref = AppPref(this)
 
@@ -51,6 +56,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            var incomingCounter = appPref.readCounter()
+            appPref.recordCounter(++incomingCounter)
+            bindingMain.textViewCounter.text = "ENTRY COUNTER : $incomingCounter"
         }
     }
 }
